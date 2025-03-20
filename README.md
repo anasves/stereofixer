@@ -20,5 +20,8 @@ input_stereo_string1 = 'C(C)(CC)(CCC)[O-]>>[C@](C)(CC)(CCC)[O-]'
 result = sc.smiles_stereo_analysis(input_stereo_string1)
 print(result)
 # Output:
-# {'mapped_rxn': '[CH3:1][CH2:2][CH2:3][C:4]([CH3:5])([O-:6])[CH2:7][CH3:8]>>[CH3:1][CH2:2][CH2:3][C@@:4]([CH3:5])([O-:6])[CH2:7][CH3:8]', 'stereo_difference': '4-?;4-S', 'reaction_stereoisomer_count_total': '2>>2', 'reaction_stereoisomer_count_unenumerated': '2>>1', 'current_stereo_atoms': '>>4', 'all_theoretically_stereo_atoms': '4>>4', 'disappearing_stereo_atoms': [], 'unassigned_stereo_atoms': [4], 'num_unassigned_stereo_atoms': 1, 'case': 'missing stereo, enumerate', 'mismatched_atoms': [(4, {'S', '?'})]}
+# {'mapped_rxn': '[CH3:1][CH2:2][CH2:3][C:4]([CH3:5])([O-:6])[CH2:7][CH3:8]>>[CH3:1][CH2:2][CH2:3][C@@:4]([CH3:5])([O-:6])[CH2:7][CH3:8]',
+# 'stereo_difference': '4-?;4-S', 'reaction_stereoisomer_count_total': '2>>2', 'reaction_stereoisomer_count_unenumerated': '2>>1',
+# 'current_stereo_atoms': '>>4', 'all_theoretically_stereo_atoms': '4>>4', 'disappearing_stereo_atoms': [], 'unassigned_stereo_atoms': [4],
+# 'num_unassigned_stereo_atoms': 1, 'case': 'missing stereo, enumerate', 'mismatched_atoms': [(4, {'S', '?'})]}
 ```
