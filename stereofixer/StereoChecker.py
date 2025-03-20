@@ -96,7 +96,7 @@ class StereoChecker():
             if any(at==None for at in tag_pair):
                 stereoremoval.append((am, set(tag_pair)-{None}))
                 stereoremoval_am.append(am)
-            elif set(tag_pair) == {'R', 'L'}:
+            elif set(tag_pair) == {'R', 'S'}:
                 isomerisation.append((am, tag_pair))
             elif any(at=='?' for at in tag_pair):
                 missing_stereo.append((am, set(tag_pair)-{None}))
@@ -233,11 +233,11 @@ class StereoChecker():
         'stereo_mismatched_flat_(should_be_3D)_plus_3D'
         'both isomerisation and stereoremoval happening: check reaction'
         """
-        stereo_difference = self.rsc.get_differences_in_stereo_per_atom(mapped_rxn)
-        current_stereo_atoms=self.rsc.get_all_stereo_atoms(mapped_rxn, self.rsc.get_current_stereo_atoms)
-        all_theoretically_stereo_atoms=self.rsc.get_all_stereo_atoms(mapped_rxn, self.rsc.get_all_theoretically_stereo_atoms)
-        _, num_unassigned_stereo_atoms = self.rsc.get_unassigned_stereo_atoms_one_reaction(all_theoretically_stereo_atoms, current_stereo_atoms)
-        case, _ = self.rsc.get_mismatched_atoms_one_reaction(stereo_difference, num_unassigned_stereo_atoms)
+        stereo_difference = self.get_differences_in_stereo_per_atom(mapped_rxn)
+        current_stereo_atoms=self.get_all_stereo_atoms(mapped_rxn, self.get_current_stereo_atoms)
+        all_theoretically_stereo_atoms=self.get_all_stereo_atoms(mapped_rxn, self.get_all_theoretically_stereo_atoms)
+        _, num_unassigned_stereo_atoms = self.get_unassigned_stereo_atoms_one_reaction(all_theoretically_stereo_atoms, current_stereo_atoms)
+        case, _ = self.get_mismatched_atoms_one_reaction(stereo_difference, num_unassigned_stereo_atoms)
         return case
 
 

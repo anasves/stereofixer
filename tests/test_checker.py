@@ -31,7 +31,7 @@ class TestStereoChecker(unittest.TestCase):
         input_stereo_string3 = '[C@](C)(CC)(CCC)[O-]>>[C@@](C)(CC)(CCC)[O-]'
         result = self.stereo_checker.smiles_stereo_analysis(input_stereo_string3)
 
-        self.assertEqual(result['case'], 'all good')
+        self.assertEqual(result['case'], 'isomerisation')
 
     def test_4(self):
         """

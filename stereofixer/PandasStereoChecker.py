@@ -4,7 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 tqdm.pandas()
 
-from StereoChecker import AtomMapper, StereoChecker
+from .StereoChecker import AtomMapper, StereoChecker
 
 class PandasStereoChecker():
 	

@@ -1,10 +1,14 @@
 import pandas as pd
 
+from .StereoChecker import AtomMapper, StereoChecker
+from .StereoEnumerator import StereoEnumerator
+
 class PandasStereoEnumerator():
 
-    def __init__(self, projectname):
+    def __init__(self):
         self.rxn_mapper = AtomMapper()
         self.se = StereoEnumerator()
+        self.sc = StereoChecker()
 
     def get_atommapped_reaction(self, rxn_smiles):
         """
@@ -19,7 +23,7 @@ class PandasStereoEnumerator():
         function to filter out the atoms with the stereo difference
         only reactions with the consistent stereo tag are left
         """
-        df['case'] = df['mapped_rxn'].apply(self.se.get_stereo_case, axis=1)
+        df['case'] = df['mapped_rxn'].apply(self.sc.get_stereo_case)
         return df[df['case']=='all good']
 
     def filter_stereo_options_results(self, reaction_stereo_options):
@@ -30,5 +34,6 @@ class PandasStereoEnumerator():
         df = pd.DataFrame(reaction_stereo_options, columns=['SMILES'])
         df['mapped_rxn']=df['SMILES'].apply(self.get_atommapped_reaction)
         df = self.exclude_combinations_with_bad_stereo(df)
+        print(df)
         
         return df['SMILES'].to_list()
