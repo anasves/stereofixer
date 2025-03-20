@@ -13,6 +13,7 @@ pip install -e .
 ```
 
 ## Usage
+1. Check reaction for stereo issues
 ```python
 from stereofixer.StereoChecker import StereoChecker
 sc = StereoChecker()
@@ -32,4 +33,38 @@ print(result)
 # 'num_unassigned_stereo_atoms': 1,
 # 'case': 'missing stereo, enumerate',
 # 'mismatched_atoms': [(4, {'S', '?'})]}
+```
+
+2. Enumerate stereo versions of a reaction
+```python
+from stereofixer.StereoEnumerator import StereoEnumerator
+stereo_enumerator = StereoEnumerator()
+result = stereo_enumerator.enumerate_stereoisomers_per_reaction('[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]', mismatched_atoms=[3,])
+print(result)
+# Output:
+#(['[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]', '[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]', '[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]', '[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]'], 4)
+```
+
+3. Filter out versions of reaction with stereoissues
+```python
+from stereofixer.PandasStereoEnumerator import PandasStereoEnumerator
+pandas_stereo_enumerator = PandasStereoEnumerator()
+reaction_stero_options =
+  ['[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]',
+   '[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]',
+   '[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]',
+   '[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]']
+
+# If executed after previous block of code,
+#reaction_stero_options = result[0]
+
+df_filtered = self.pandas_stereo_enumerator.filter_stereo_options_results(reaction_stero_options)
+print(df_filtered)
+# Output:
+#    SMILES  ...      case
+# 1  [CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>...  ...  all good
+# 2  [CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>...  ...  all good
+#
+# [2 rows x 3 columns]
+
 ```
