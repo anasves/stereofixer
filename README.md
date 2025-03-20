@@ -42,7 +42,10 @@ stereo_enumerator = StereoEnumerator()
 result = stereo_enumerator.enumerate_stereoisomers_per_reaction('[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]', mismatched_atoms=[3,])
 print(result)
 # Output:
-#(['[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]', '[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]', '[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]', '[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]'], 4)
+#(['[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]',
+# '[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]',
+# '[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]',
+# '[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]'], 4)
 ```
 
 3. Filter out versions of reaction with stereoissues
