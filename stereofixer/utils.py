@@ -6,13 +6,13 @@ from rdkit import Chem
 from rdkit.Chem import AllChem
 from pathlib import Path
 
-def load_reaction_network(project_folder):
+def load_reaction_network(project_folder: str):
     """
     Load a reaction network from TSV files located in the specified project folder.
 
     Parameters:
         project_folder (str): Path to the project folder containing the TSV files.
-        
+
     Returns:
         dict: A dictionary representing the reaction network, with two keys:
             - "reactions": DataFrame containing reaction data.
@@ -52,7 +52,7 @@ def save_reaction_network(fixed_reaction_network, project_folder, reaction_id):
     Parameters:
         fixed_reaction_network (dict): A dictionary representing the fixed reaction network.
         project_folder (str): Path to the project folder where the TSV files will be saved.
-        
+
     Returns:
         None
     """
@@ -65,7 +65,7 @@ def save_reaction_network(fixed_reaction_network, project_folder, reaction_id):
         list_results.append([reaction_id_n, reaction_equation, row['mapped_rxn']])
     df = pd.DataFrame(list_results, columns=['reaction_id', 'equation', 'mapped_reaction_smiles'])
     df.to_csv(os.path.join(project_folder, f'RHEA:{reaction_id}_all_reaction_options.tsv'), sep='\t', index=False)
-    
+
 
 def save_reaction_smiles_as_rdf(rxn_smiles, reaction_id, index):
     """
@@ -75,7 +75,7 @@ def save_reaction_smiles_as_rdf(rxn_smiles, reaction_id, index):
         rxn_smiles (str): The SMILES string of the reaction.
         reaction_id (str): An identifier for the reaction.
         index (int): An index to differentiate multiple reactions.
-        
+
     Returns:
         None
     """
@@ -94,7 +94,7 @@ def reaction_smiles_to_equation(reaction_id_n, rxn_smiles, inchi_2_chebiid, proj
         rxn_smiles (str): The SMILES string of the reaction.
         reaction_id (str): An identifier for the reaction.
         index (int): An index to differentiate multiple reactions.
-        
+
     Returns:
         None
     """
@@ -110,7 +110,7 @@ def reaction_smiles_to_equation(reaction_id_n, rxn_smiles, inchi_2_chebiid, proj
     # Create reaction equation using InChIKeys
     reaction_equation = f"{' + '.join(reactant_keys)} >> {' + '.join(product_keys)}"
     return reaction_equation
-    
+
 def get_inchi_and_export_molfiles(mol_list, inchi_2_chebiid, project_folder, reaction_id_n):
     stoich_matrix_ids = []
     for mol in mol_list:
@@ -129,15 +129,15 @@ def get_inchi_and_export_molfiles(mol_list, inchi_2_chebiid, project_folder, rea
             Chem.MolToMolFile(mol, file_name)
     return stoich_matrix_ids
 
-    
-def merge_tsvs_into_one_file(tsvs_folder, output_file_name):
+
+def merge_tsvs_into_one_file(tsvs_folder: str, output_file_name: str):
     """
     Merge all TSV files in a specified folder into a single TSV file.
 
     Parameters:
         tsvs_folder (str): The folder containing TSV files to merge.
         output_file_name (str): The name of the output file to save the merged data.
-        
+
     Returns:
         None
     """

@@ -1,5 +1,3 @@
-import os
-import re
 from rdkit import Chem
 from rdkit.Chem.EnumerateStereoisomers import StereoEnumerationOptions, GetStereoisomerCount
 from .AtomMapper import AtomMapper
@@ -14,14 +12,14 @@ opts_keep_assigned = StereoEnumerationOptions(onlyUnassigned=True, unique=True) 
 
 
 class StereoChecker():
-	
-    def __init__(self, canonicalize_rxns=True):
+
+    def __init__(self, canonicalize_rxns: bool = True) -> None:
         """
         This class is implementation of atom mapping of the reaction network of RheaDB to transform it into atom transition network.
         """
         self.rxn_mapper = AtomMapper(canonicalize_rxns=canonicalize_rxns)
 
-    def get_differences_in_stereo_per_atom(self, mapped_reaction):
+    def get_differences_in_stereo_per_atom(self, mapped_reaction) -> str:
         """
         checks if the stereotag holds on the left and right sides of the equation
         """
@@ -33,7 +31,7 @@ class StereoChecker():
         reactant_stereo_maps = []
         for mol in reactants:
             reactant_stereo_maps.extend(self.get_map_stereo(mol))
-        
+
         product_stereo_maps = []
         for mol in products:
             product_stereo_maps.extend(self.get_map_stereo(mol))
@@ -50,16 +48,16 @@ class StereoChecker():
         for atom in mol.GetAtoms():
             if atom.GetIdx() in chirality.keys():
                 atom.SetProp('stereotag', chirality[atom.GetIdx()])
-            else: 
+            else:
                 atom.SetProp('stereotag', 'None')
         return mol
-    
+
     def get_stereotag(self, atom):
         if atom.HasProp('_CIPCode'):
-           return atom.GetProp('_CIPCode')
+            return atom.GetProp('_CIPCode')
         return 'None'
 
-    
+
     def get_set_difference( self, set1 , set2):
         # Find elements in set1 but not in set2
         unmatched_in_set1 = set1 - set2
@@ -124,19 +122,19 @@ class StereoChecker():
         """
         # Split the input string by '>>'
         left_part, right_part = input_string.split('>>')
-        
+
         # Split the left part by '-'
         left_numbers = set(left_part.replace('.', '-').split('-'))
-        
+
         # Split the right part by either '.' or '-' to handle both delimiters
         right_numbers = set(right_part.replace('.', '-').split('-'))
-        
+
         # Find numbers that are only in the left set
         only_in_left = left_numbers - right_numbers
-        
+
         # Find numbers that are only in the right set
         only_in_right = right_numbers - left_numbers
-        
+
         # return atoms with stereo on both sides
         # return common_numbers
         # return atoms for which stereo disappears
@@ -147,32 +145,32 @@ class StereoChecker():
         # Split the input string by '>>'
         left_part1, right_part1 = all_theoretically_stereo_atoms.split('>>')
         left_part2, right_part2 = current_stereo_atoms.split('>>')
-        
+
         # Split the left part by '-'
         left_numbers1 = set(left_part1.replace('.', '-').split('-'))
         left_numbers2 = set(left_part2.replace('.', '-').split('-'))
-        
+
         # Split the right part by either '.' or '-' to handle both delimiters
         right_numbers1 = set(right_part1.replace('.', '-').split('-'))
         right_numbers2 = set(right_part2.replace('.', '-').split('-'))
 
         left_unassigned = left_numbers1 - left_numbers2
         right_unassigned = right_numbers1 - right_numbers2
-        
+
         # return atoms with stereo on both sides
         # return common_numbers
         # return atoms for which stereo disappears
         result = left_unassigned.union(right_unassigned) - {''}
         return [int(i) for i in result], len(result)
-        
+
     def parse_string_to_dict(self, input_string):
         """
         Output:
         {'26-?', '3-None', '14-?', '16-None', '17-None', '32-None', '12-None', '28-?', '1-None', '24-?', '20-?', '13-?', '33-None',
-          '8-?', '5-None', '22-None', '35-None', '18-?', '6-None', '10-?', '34-None', '9-None', '23-None', '27-None', '31-None', '2-?',
-            '21-None', '4-None', '7-None', '11-None', '25-None', '29-None', '19-None', '30-?', '15-?'}
+        '8-?', '5-None', '22-None', '35-None', '18-?', '6-None', '10-?', '34-None', '9-None', '23-None', '27-None', '31-None', '2-?',
+        '21-None', '4-None', '7-None', '11-None', '25-None', '29-None', '19-None', '30-?', '15-?'}
         """
-        
+
         if len(input_string)==0:
             return dict()
         # Split the string by semicolons to get the individual parts
@@ -195,7 +193,7 @@ class StereoChecker():
         for key in result_dict:
             result_dict[key] = tuple(result_dict[key])
         return result_dict
-    
+
     def get_all_stereo_atoms(self, mapped_reaction, func):
         """
         func - get_all_theoretically_stereo_atoms or get_current_stereo_atoms
@@ -205,7 +203,7 @@ class StereoChecker():
         reactants = [func(mol) for mol in reactants]
         products = [func(mol) for mol in products]
         return '.'.join(reactants)+'>>'+'.'.join(products)
-    
+
     def get_all_theoretically_stereo_atoms(self, mol):
         mol=self.assign_atom_stereotags(mol)
         stereo_atoms=[]
@@ -241,7 +239,7 @@ class StereoChecker():
         return case
 
 
-    def smiles_stereo_analysis(self, input_stereo_string):
+    def smiles_stereo_analysis(self, input_stereo_string: str):
 
         analysis_result = dict()
         mapped_rxn = self.rxn_mapper.map_one_reaction(input_stereo_string)
@@ -269,4 +267,3 @@ class StereoChecker():
         analysis_result['mismatched_atoms'] = mismatched_atoms
 
         return analysis_result
-

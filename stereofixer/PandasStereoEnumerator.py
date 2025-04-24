@@ -17,7 +17,7 @@ class PandasStereoEnumerator():
         rxn_smiles = rxn_smiles.replace('.[H+]', '').replace('[H+].', '').replace('[H][H].', '').replace('.[H][H]', '')
         res = self.se.rxn_mapper.map_one_reaction(rxn_smiles)['mapped_rxn']
         return res
-    
+
     def exclude_combinations_with_bad_stereo(self, df):
         """
         function to filter out the atoms with the stereo difference
@@ -26,7 +26,7 @@ class PandasStereoEnumerator():
         df['case'] = df['mapped_rxn'].apply(self.sc.get_stereo_case)
         return df[df['case']=='all good']
 
-    def filter_stereo_options_results(self, reaction_stereo_options):
+    def filter_stereo_options_results(self, reaction_stereo_options: list[str]) -> list[str]:
         """
         : param reaction_stereo_options : list of reaction SMILES with varying stereotags to be checked
         : return : list of reactions with only correct stereochemistry
@@ -35,5 +35,5 @@ class PandasStereoEnumerator():
         df['mapped_rxn']=df['SMILES'].apply(self.get_atommapped_reaction)
         df = self.exclude_combinations_with_bad_stereo(df)
         print(df)
-        
+
         return df['SMILES'].to_list()

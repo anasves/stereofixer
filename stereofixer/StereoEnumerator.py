@@ -3,7 +3,7 @@ from rdkit.Chem import AllChem
 from rdkit.Chem.EnumerateStereoisomers import EnumerateStereoisomers, StereoEnumerationOptions
 from .AtomMapper import AtomMapper
 import itertools
-        
+
 class StereoEnumerator():
 
     def __init__(self):
@@ -54,7 +54,7 @@ class StereoEnumerator():
         # Reconstruct the reaction string
         return f"{reactants}>>{products}"
 
-    def enumerate_stereoisomers_per_reaction(self, mapped_rxn, mismatched_atoms=list()):
+    def enumerate_stereoisomers_per_reaction(self, mapped_rxn: str, mismatched_atoms=list()):
         """
         : param mapped_rxn : atom mapped reaction
         : param mismatched_atoms : list of int, identified in StereoChecker
@@ -77,5 +77,5 @@ class StereoEnumerator():
         reaction_stereo_options = ['>>'.join(i) for i in react_prod_combs]
 
         return reaction_stereo_options, len(react_prod_combs)
-    
+
 
