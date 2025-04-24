@@ -5,7 +5,7 @@
 
 ## Installation
 ```bash
-git clone https://github.com/anasves/stereofixer.git 
+git clone https://github.com/anasves/stereofixer.git
 cd stereofixer
 conda create -n stereofixer python=3.9 -y
 conda activate stereofixer
@@ -13,9 +13,12 @@ pip install -e .
 ```
 
 ## Usage
+
 1. Check reaction for stereo issues
+
 ```python
-from stereofixer.StereoChecker import StereoChecker
+from stereofixer import StereoChecker
+
 sc = StereoChecker()
 input_stereo_string1 = 'C(C)(CC)(CCC)[O-]>>[C@](C)(CC)(CCC)[O-]'
 result = sc.smiles_stereo_analysis(input_stereo_string1)
@@ -36,8 +39,10 @@ print(result)
 ```
 
 2. Enumerate stereo versions of a reaction
+
 ```python
-from stereofixer.StereoEnumerator import StereoEnumerator
+from stereofixer import StereoEnumerator
+
 stereo_enumerator = StereoEnumerator()
 result = stereo_enumerator.enumerate_stereoisomers_per_reaction('[CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@@H:3]([CH3:4])[NH2:6].[OH2:5]', mismatched_atoms=[3,])
 print(result)
@@ -49,8 +54,10 @@ print(result)
 ```
 
 3. Filter out versions of reaction with stereoissues
+
 ```python
-from stereofixer.PandasStereoEnumerator import PandasStereoEnumerator
+from stereofixer import PandasStereoEnumerator
+
 pandas_stereo_enumerator = PandasStereoEnumerator()
 reaction_stero_options =
   ['[CH3:1][CH2:2][C@@H:3]([CH3:4])[OH:5].[NH3:6]>>[CH3:1][CH2:2][C@H:3]([CH3:4])[NH2:6].[OH2:5]',
@@ -61,7 +68,7 @@ reaction_stero_options =
 # If executed after previous block of code,
 #reaction_stero_options = result[0]
 
-df_filtered = self.pandas_stereo_enumerator.filter_stereo_options_results(reaction_stero_options)
+df_filtered = pandas_stereo_enumerator.filter_stereo_options_results(reaction_stero_options)
 print(df_filtered)
 # Output:
 #    SMILES  ...      case
@@ -69,5 +76,4 @@ print(df_filtered)
 # 2  [CH3:1][CH2:2][C@H:3]([CH3:4])[OH:5].[NH3:6]>>...  ...  all good
 #
 # [2 rows x 3 columns]
-
 ```
